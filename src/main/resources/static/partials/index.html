@@ -1,0 +1,101 @@
+<div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Claim Value Estimation
+                    <small>@motionscloud</small>
+                </h1>
+            </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-8">Claim Case : 14234</div>
+                <div class="col-md-2">
+                    <button class="btn btn-upload" ngf-select="uploadPic($file)" ng-model="picFile"
+                         accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                  Select Image</button>
+                </div>
+
+            </div>
+
+            <div class="row" align="middle">
+                <img ngf-thumbnail="picFile" class="input-image vcenter" >
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!--<div class="row"> Category: {{items[0].category}}</div>-->
+            <div class="row">
+                <div class="search">
+                    <input type="text" class="form-control input-sm" maxlength="64" />
+                    <button type="submit" class="btn-search btn-primary btn-sm">Search</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div ng-repeat="item in items  | orderBy: 'score'" class="material-item" ng-class="{'selected': checkIndex($index)}" ng-click="selectItem($index)">
+
+                    <div  class="col-md-8">
+                        <p  style="float:left">{{item.name}}</p>
+                    </div>
+
+                    <div class="col-md-1">
+                        <span style="float:left" class="glyphicon glyphicon-check" aria-hidden="true" ng-show="checkIndex($index)"></span>
+                    </div>
+
+                    <div style="float:left; width:50px;height:50px" class="col-md-1">
+                        <img ng-src="{{item.image_url}}">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+        <div class="line-separator"></div>
+        <footer>
+            <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-info">Next Damage</button>
+            <button class="btn btn-default">Send Proposal</button>
+        </div>
+        <div class="col-md-4">
+            <div>
+                Sub-total(€): <span>{{total}}</span>
+            </div>
+
+            <div>
+                Total(€): <span>{{total}}</span>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <span>Pieces: </span>
+
+                <button ng-click="decQuantity()" ng-disabled="quantity == 0"><span class="glyphicon glyphicon-minus"></span></button>
+                <span>{{quantity}}</span>
+                <button ng-click="incQuantity()"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div class="row">
+                Raw material cost(€): {{materialCost}}
+            </div>
+            <div class="row">
+                Labor cost(€): {{laborCost}}
+            </div>
+            <div class="row">
+                Hours(h): {{quantity * 0.5}}
+            </div>
+
+        </div>
+    </div>
+        </footer>
+
+    </div>
+
+
+</div>
