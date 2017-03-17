@@ -9,12 +9,12 @@ myApp
      function($routeProvider) {
          $routeProvider.
              when('/', {
-                 templateUrl: '/static/partials/index.html',
+                 templateUrl: '../partials/index.html',
                  controller: 'MainCtr',
                  // css: ''
              }).
              when('/about', {
-                 templateUrl: '../static/partials/about.html',
+                 templateUrl: '../partials/about.html',
              }).
              otherwise({
                  redirectTo: '/'
