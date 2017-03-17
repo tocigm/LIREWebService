@@ -55,10 +55,11 @@ function MainCtr($scope, Item, Upload, $timeout){
         $scope.items = [];
         $scope.file = file
         file.upload = Upload.upload({
-            url: 'http://localhost:5000/upload',  //http://demo7177.cloudapp.net/upload
+            url: 'http://localhost:1234/search',  //http://demo7177.cloudapp.net/upload
             data: {file: file}
         })
         file.upload.then(function (response) {
+            console.log(response)
             $timeout(function () {
                 response.data.forEach(function (item) {
                     $scope.items.push(Item.set(item))
