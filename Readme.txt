@@ -13,4 +13,4 @@ bower install
 
 ``
 3. Run Service:
-	Ex: mvn exec:java8  -Dexec.mainClass="service.WebService"
+	Ex: mvn exec:java8  -Dexec.mainC lass="service.WebService"

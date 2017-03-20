@@ -26,11 +26,11 @@
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <version>2.4</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>net.sf.json-lib</groupId>-->
+            <!--<artifactId>json-lib</artifactId>-->
+            <!--<version>2.4</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
@@ -86,7 +86,11 @@
             <artifactId>gson</artifactId>
             <version>2.2.4</version>
         </dependency>
-
+        <dependency>
+            <groupId>net.semanticmetadata</groupId>
+            <artifactId>lire</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 
