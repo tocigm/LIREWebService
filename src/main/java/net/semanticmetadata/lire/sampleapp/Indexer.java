@@ -42,9 +42,6 @@
 package net.semanticmetadata.lire.sampleapp;
 
 import net.semanticmetadata.lire.builders.GlobalDocumentBuilder;
-import net.semanticmetadata.lire.imageanalysis.features.global.AutoColorCorrelogram;
-import net.semanticmetadata.lire.imageanalysis.features.global.CEDD;
-import net.semanticmetadata.lire.imageanalysis.features.global.FCTH;
 import net.semanticmetadata.lire.utils.FileUtils;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -93,9 +90,11 @@ public class Indexer {
         /*
             Then add those features we want to extract in a single run:
          */
-        globalDocumentBuilder.addExtractor(CEDD.class);
-        globalDocumentBuilder.addExtractor(FCTH.class);
-        globalDocumentBuilder.addExtractor(AutoColorCorrelogram.class);
+//        globalDocumentBuilder.addExtractor(CEDD.class);
+//        globalDocumentBuilder.addExtractor(FCTH.class);
+//        globalDocumentBuilder.addExtractor(AutoColorCorrelogram.class);
+
+        globalDocumentBuilder.addExtractor(VGGFeatures.class);
 
         // Creating an Lucene IndexWriter
         IndexWriterConfig conf = new IndexWriterConfig(new WhitespaceAnalyzer());
