@@ -14,13 +14,40 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.HashMap;
 
 /**
  * Created by SONY on 3/21/2017.
  */
 public class VGGFeatures implements GlobalFeature {
+    public static boolean modeOffline = false;
+    public static String inputPath = "data/output.txt";
+    public static HashMap<String, double[]> mapFeature = null;
+
+    private static synchronized void init() {
+        try {
+            if (mapFeature != null)
+                return;
+            mapFeature = new HashMap<>();
+            BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(inputPath)));
+            String filePath;
+            JsonParser parser = new JsonParser();
+            while ((filePath = read.readLine()) != null) {
+                String jsonString = read.readLine();
+                JsonElement tradeElement = parser.parse(jsonString);
+                JsonArray trade = tradeElement.getAsJsonArray();
+                double[] feature = new double[trade.size()];
+                for (int i = 0; i < trade.size();i++) {
+                    feature[i] = trade.get(i).getAsDouble();
+                }
+                mapFeature.put(filePath,feature);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     double[] feature;
 
     public double[] getFeature() {
@@ -87,15 +114,23 @@ public class VGGFeatures implements GlobalFeature {
     public void extract(BufferedImage bufferedImage) {
         feature = new double[0];
         try {
-            File outputfile = new File("image.jpg");
-            ImageIO.write(bufferedImage, "jpg", outputfile);
-            String json = getPostJSONContent("http://127.0.0.1:5000/", outputfile);
-            JsonParser parser = new JsonParser();
-            JsonElement tradeElement = parser.parse(json);
-            JsonArray trade = tradeElement.getAsJsonArray();
-            feature = new double[trade.size()];
-            for (int i = 0; i < trade.size();i++) {
-                feature[i] = trade.get(i).getAsDouble();
+            if (modeOffline && bufferedImage instanceof VggBufferedImage) {
+                if (mapFeature == null)
+                    init();
+                VggBufferedImage vggBufferedImage = (VggBufferedImage) bufferedImage;
+                if (mapFeature.containsKey(vggBufferedImage.getFileName()))
+                    feature = mapFeature.get(vggBufferedImage.getFileName());
+            } else{
+                File outputfile = new File("image.jpg");
+                ImageIO.write(bufferedImage, "jpg", outputfile);
+                String json = getPostJSONContent("http://127.0.0.1:5000/", outputfile);
+                JsonParser parser = new JsonParser();
+                JsonElement tradeElement = parser.parse(json);
+                JsonArray trade = tradeElement.getAsJsonArray();
+                feature = new double[trade.size()];
+                for (int i = 0; i < trade.size(); i++) {
+                    feature[i] = trade.get(i).getAsDouble();
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();

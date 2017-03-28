@@ -33,7 +33,7 @@ public class SearchService {
         for (JsonElement ele : results){
             JsonObject jObj = ele.getAsJsonObject();
             String imgURL = jObj.get("url").getAsString();
-            String [] parts = imgURL.split("/");
+            String [] parts = imgURL.split("\\\\");
             String imgName = parts[parts.length - 1];
             imgURL = PREFIX + imgName;
             images.add(new Image(imgURL, imgName, jObj.get("score").getAsFloat()));

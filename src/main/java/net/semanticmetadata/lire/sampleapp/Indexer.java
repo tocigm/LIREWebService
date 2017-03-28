@@ -43,6 +43,7 @@ package net.semanticmetadata.lire.sampleapp;
 
 import net.semanticmetadata.lire.builders.GlobalDocumentBuilder;
 import net.semanticmetadata.lire.utils.FileUtils;
+import net.semanticmetadata.lire.utils.ImageUtils;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
@@ -56,10 +57,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 /**
  * Simple class showing the process of indexing
+ *
  * @author Mathias Lux, mathias@juggle.at and Nektarios Anagnostopoulos, nek.anag@gmail.com
  */
 public class Indexer {
@@ -94,6 +97,7 @@ public class Indexer {
 //        globalDocumentBuilder.addExtractor(FCTH.class);
 //        globalDocumentBuilder.addExtractor(AutoColorCorrelogram.class);
 
+        VGGFeatures.modeOffline = true;
         globalDocumentBuilder.addExtractor(VGGFeatures.class);
 
         // Creating an Lucene IndexWriter
@@ -105,7 +109,17 @@ public class Indexer {
             System.out.println("Indexing " + imageFilePath);
             try {
                 BufferedImage img = ImageIO.read(new FileInputStream(imageFilePath));
-                Document document = globalDocumentBuilder.createDocument(img, imageFilePath);
+                if(Math.max(img.getHeight(), img.getWidth()) > 1024) {
+                    img = ImageUtils.scaleImage(img, 1024);
+                }
+                Hashtable<String, Object> properties = new Hashtable<>();
+                String[] propertiesNames = img.getPropertyNames();
+                if (propertiesNames != null)
+                    for (String name : propertiesNames) {
+                        properties.put(name, img.getProperty(name));
+                    }
+                VggBufferedImage myImg = new VggBufferedImage(imageFilePath, img, properties);
+                Document document = globalDocumentBuilder.createDocument(myImg, imageFilePath);
                 iw.addDocument(document);
             } catch (Exception e) {
                 System.err.println("Error reading image or indexing it.");
