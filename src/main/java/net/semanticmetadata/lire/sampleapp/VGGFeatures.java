@@ -107,7 +107,7 @@ public class VGGFeatures implements GlobalFeature {
 
     @Override
     public double[] getFeatureVector() {
-        return new double[0];
+        return feature;
     }
 
     @Override
@@ -118,8 +118,11 @@ public class VGGFeatures implements GlobalFeature {
                 if (mapFeature == null)
                     init();
                 VggBufferedImage vggBufferedImage = (VggBufferedImage) bufferedImage;
-                if (mapFeature.containsKey(vggBufferedImage.getFileName()))
+                if (mapFeature.containsKey(vggBufferedImage.getFileName())) {
                     feature = mapFeature.get(vggBufferedImage.getFileName());
+                } else {
+                    System.out.println("a " + vggBufferedImage.getFileName());
+                }
             } else{
                 File outputfile = new File("image.jpg");
                 ImageIO.write(bufferedImage, "jpg", outputfile);
