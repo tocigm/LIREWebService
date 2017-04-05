@@ -67,7 +67,7 @@ public class Searcher {
     public void init() {
         try {
             ir = DirectoryReader.open(FSDirectory.open(Paths.get("index")));
-            searcher = new GenericFastImageSearcher(30, VGGFeatures.class);
+            searcher = new GenericFastImageSearcher(10, CombineFeature.class);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -110,7 +110,7 @@ public class Searcher {
         }
 
         IndexReader ir = DirectoryReader.open(FSDirectory.open(Paths.get("index")));
-        ImageSearcher searcher = new GenericFastImageSearcher(30, VGGFeatures.class);
+        ImageSearcher searcher = new GenericFastImageSearcher(30, CombineFeature.class);
         // ImageSearcher searcher = new GenericFastImageSearcher(30, AutoColorCorrelogram.class); // for another image descriptor ...
 
         /*

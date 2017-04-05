@@ -98,7 +98,7 @@ public class Indexer {
 //        globalDocumentBuilder.addExtractor(AutoColorCorrelogram.class);
 
         VGGFeatures.modeOffline = true;
-        globalDocumentBuilder.addExtractor(VGGFeatures.class);
+        globalDocumentBuilder.addExtractor(CombineFeature.class);
 
         // Creating an Lucene IndexWriter
         IndexWriterConfig conf = new IndexWriterConfig(new WhitespaceAnalyzer());

@@ -84,7 +84,6 @@ public class VGGFeatures implements GlobalFeature {
                 feature[index] = tmp[index-i];
             }
         }
-
     }
 
     @Override
